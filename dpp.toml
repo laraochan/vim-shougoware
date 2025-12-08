@@ -1,0 +1,183 @@
+[[plugins]]
+repo = "vim-denops/denops.vim"
+
+[[plugins]]
+repo = "Shougo/dpp.vim"
+
+[[plugins]]
+repo = "Shougo/dpp-ext-installer"
+
+[[plugins]]
+repo = "Shougo/dpp-ext-local"
+
+[[plugins]]
+repo = "Shougo/dpp-ext-lazy"
+
+[[plugins]]
+repo = "Shougo/dpp-ext-toml"
+
+[[plugins]]
+repo = "Shougo/dpp-protocol-git"
+
+[[plugins]]
+repo = "cocopon/iceberg.vim"
+hook_add = '''
+set background="light"
+colorscheme iceberg
+'''
+
+[[plugins]]
+repo = "prabirshrestha/vim-lsp"
+hook_add = '''
+if executable('typescript-language-server')
+	autocmd User lsp_setup call lsp#register_server({
+		\ 'name': 'ts_ls',
+		\ 'cmd': {server_info->['typescript-language-server', '--stdio']},
+		\ 'allowlist': ['javascript', 'typescript', 'javascriptreact', 'typescriptreact']
+		\ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+	setlocal omnifunc=lsp#complete
+	if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+	nnoremap <buffer> <leader>gd <plug>(lsp-definition)
+	nnoremap <buffer> <leader>gr <plug>(lsp-references)
+	nnoremap <buffer> <leader>gi <plug>(lsp-implementation)
+	nnoremap <buffer> <leader>gD <plug>(lsp-type-definition)
+	nnoremap <buffer> <leader>rn <plug>(lsp-rename)
+	nnoremap <buffer> <leader>[g <plug>(lsp-prev-diagnostic)
+	nnoremap <buffer> <leader>]g <plug>(lsp-next-diagnostic)
+	nnoremap <buffer> <leader>k <plug>(lsp-hover)
+	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+	nnoremap <buffer> <expr><c-b> lsp#scroll(-4)
+endfunction
+
+augroup lsp_install
+	autocmd!
+	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+'''
+
+[[plugins]]
+repo = "Shougo/ddc.vim"
+hook_source = '''
+inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
+inoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
+inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
+
+call ddc#custom#patch_global('ui', 'pum')
+call ddc#custom#patch_global('sources', ['lsp', 'around'])
+call ddc#custom#patch_global('autoCompleteDelay', 100)
+call ddc#custom#patch_global('sourceOptions', {
+	\ '_': {
+	\ 	'matchers': ['matcher_fuzzy'],
+	\	'sorters': ['sorter_fuzzy'],
+	\ },
+	\ 'around': {
+	\	'mark': '[AROUND]',
+	\ },
+	\ 'lsp': {
+	\	'mark': '[LSP]',
+	\	'dup': 'keep',
+	\	'isVolatile': v:true,
+	\	'ignoreCase': v:true,
+	\	'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+	\ }})
+call ddc#custom#patch_global('sourceParams', {
+	\ 'around': {
+	\	'maxSize': 500,
+	\ },
+	\ 'lsp': {
+	\	'lspEngine': 'vim-lsp',
+	\	'enableResolveItem': v:true,
+	\	'enableAdditionalTextEdit': v:true,
+	\ }})
+call ddc#enable()
+call popup_preview#enable()
+'''
+
+[[plugins]]
+repo = "Shougo/ddc-ui-pum"
+
+[[plugins]]
+repo = "Shougo/pum.vim"
+
+[[plugins]]
+repo = "Shougo/ddc-source-around"
+
+[[plugins]]
+repo = "Shougo/ddc-source-lsp"
+
+[[plugins]]
+repo = "tani/ddc-fuzzy"
+
+[[plugins]]
+repo = "matsui54/denops-popup-preview.vim"
+
+[[plugins]]
+repo = "Shougo/ddu.vim"
+hook_add = '''
+call ddu#custom#patch_global({
+	\ 'kindOptions': {
+	\	'file': {
+	\		'defaultAction': 'open',
+	\	},
+	\ }})
+call ddu#custom#patch_local('buffer', {
+	\ 'ui': 'ff',
+	\ 'sources': [{'name': 'buffer'}],
+	\ })
+autocmd FileType ddu-ff call s:ddu_ff_settings()
+function! s:ddu_ff_settings() abort
+	nnoremap <buffer><silent> q
+		\ <cmd>call ddu#ui#do_action('quit')<cr>
+	nnoremap <buffer><silent> <cr>
+		\ <cmd>call ddu#ui#do_action('itemAction')<cr>
+endfunction
+nnoremap <silent> <leader>bb <cmd>call ddu#start({'name': 'buffer'})<cr>
+'''
+
+[[plugins]]
+repo = "Shougo/ddu-ui-ff"
+
+[[plugins]]
+repo = "shun/ddu-source-buffer"
+
+[[plugins]]
+repo = "Shougo/ddu-kind-file"
+
+[[plugins]]
+repo = "vim-fall/fall.vim"
+hook_add = '''
+nnoremap <leader>ff <cmd>Fall file<cr>
+'''
+
+[[plugins]]
+repo = "airblade/vim-gitgutter"
+hook_source = '''
+augroup dpp_gitgutter
+  autocmd!
+  autocmd CursorHold,CursorHoldI * GitGutter
+  autocmd BufWritePost * GitGutter
+augroup END
+'''
+
+
+[[plugins]]
+repo = "voldikss/vim-floaterm"
+hook_source = '''
+nnoremap <silent> <C-t>c :FloatermNew<CR>
+nnoremap <silent> <C-t>t :FloatermToggle<CR>
+nnoremap <silent> <C-t>n :FloatermNext<CR>
+nnoremap <silent> <C-t>p :FloatermPrev<CR>
+nnoremap <silent> <C-t>x :FloatermKill<CR>
+
+tnoremap <silent> <C-t>c <C-\><C-n>:FloatermNew<CR>
+tnoremap <silent> <C-t>t <C-\><C-n>:FloatermToggle<CR>
+tnoremap <silent> <C-t>n <C-\><C-n>:FloatermNext<CR>
+tnoremap <silent> <C-t>p <C-\><C-n>:FloatermPrev<CR>
+tnoremap <silent> <C-t>x <C-\><C-n>:FloatermKill<CR>
+'''
