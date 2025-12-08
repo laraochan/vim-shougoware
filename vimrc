@@ -43,6 +43,11 @@ endif
 set termguicolors
 set clipboard+=unnamed
 set signcolumn=yes
+set nobackup
+set nowritebackup
+set noswapfile
+set noundofile
+set nowrap
 
 nnoremap <leader>bd <cmd>bd<cr>
 nnoremap <leader>bn <cmd>bn<cr>
