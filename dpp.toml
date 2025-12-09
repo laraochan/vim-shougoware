@@ -185,3 +185,9 @@ tnoremap <silent> <C-t>x <C-\><C-n>:FloatermKill<CR>
 
 [[plugins]]
 repo = "lambdalisue/vim-gin"
+
+[[plugins]]
+repo = "lambdalisue/vim-fern"
+hook_source = '''
+nnoremap <leader>e <cmd>Fern .<cr>
+'''
