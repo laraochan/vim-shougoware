@@ -189,5 +189,12 @@ repo = "lambdalisue/vim-gin"
 [[plugins]]
 repo = "lambdalisue/vim-fern"
 hook_source = '''
+let g:fern#renderer = "nerdfont"
 nnoremap <leader>e <cmd>Fern .<cr>
 '''
+
+[[plugins]]
+repo = "lambdalisue/vim-nerdfont"
+
+[[plugins]]
+repo = "lambdalisue/vim-fern-renderer-nerdfont"
