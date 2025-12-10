@@ -22,7 +22,6 @@ repo = "Shougo/dpp-protocol-git"
 [[plugins]]
 repo = "cocopon/iceberg.vim"
 hook_add = '''
-set background=light
 colorscheme iceberg
 '''
 
@@ -130,6 +129,9 @@ call ddu#custom#patch_global({
 	\	'file': {
 	\		'defaultAction': 'open',
 	\	},
+    \   'action': {
+    \       'defaultAction': 'do',
+    \   },
 	\ }})
 call ddu#custom#patch_local('buffer', {
 	\ 'ui': 'ff',
@@ -141,6 +143,8 @@ function! s:ddu_ff_settings() abort
 		\ <cmd>call ddu#ui#do_action('quit')<cr>
 	nnoremap <buffer><silent> <cr>
 		\ <cmd>call ddu#ui#do_action('itemAction')<cr>
+	nnoremap <buffer><silent> a
+		\ <cmd>call ddu#ui#do_action('chooseAction')<cr>
 endfunction
 nnoremap <silent> <leader>bb <cmd>call ddu#start({'name': 'buffer'})<cr>
 '''
@@ -150,6 +154,9 @@ repo = "Shougo/ddu-ui-ff"
 
 [[plugins]]
 repo = "shun/ddu-source-buffer"
+
+[[plugins]]
+repo = "Shougo/ddu-source-action"
 
 [[plugins]]
 repo = "Shougo/ddu-kind-file"
@@ -202,3 +209,11 @@ repo = "lambdalisue/vim-nerdfont"
 
 [[plugins]]
 repo = "lambdalisue/vim-fern-renderer-nerdfont"
+
+[[plugins]]
+repo = "Shougo/ddt.vim"
+hook_add = '''
+'''
+
+[[plugins]]
+repo = "Shougo/ddt-ui-terminal"
