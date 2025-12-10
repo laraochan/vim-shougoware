@@ -125,6 +125,11 @@ repo = "matsui54/denops-popup-preview.vim"
 repo = "Shougo/ddu.vim"
 hook_add = '''
 call ddu#custom#patch_global({
+    \ 'sourceOptions': {
+    \   'action': {
+    \       'matchers': ['matcher_substring'],
+    \   },
+    \ },
 	\ 'kindOptions': {
 	\	'file': {
 	\		'defaultAction': 'open',
@@ -135,7 +140,7 @@ call ddu#custom#patch_global({
     \ },
     \ 'filterParams': {
     \   'matcher_substring': {
-    \       'highlightMatched': 'Title'
+    \       'highlightMatched': 'PmenuMatch'
     \   },
     \ },
     \ 'uiParams': {
@@ -190,7 +195,7 @@ function! s:ddu_filer_settings() abort
     nnoremap <buffer><silent><expr> <cr>
         \ ddu#ui#get_item()->get('isTree', v:false) ?
         \ "<cmd>call ddu#ui#do_action('itemAction', {'name': 'narrow'})<cr>" :
-        \ "<cmd>call ddu#ui#do_action('itemAction', {'name': 'open'})<cr>"
+        \ "<cmd>call ddu#ui#do_action('itemAction')<cr>"
     nnoremap <buffer><silent> o
         \ <cmd>call ddu#ui#do_action('expandItem')<cr>
     nnoremap <buffer><silent> ..
