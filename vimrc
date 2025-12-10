@@ -48,6 +48,12 @@ set nowritebackup
 set noswapfile
 set noundofile
 set nowrap
+set autoindent
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
 
 nnoremap <leader>bd <cmd>bd<cr>
 nnoremap <leader>bn <cmd>bn<cr>
