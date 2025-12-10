@@ -61,6 +61,9 @@ augroup END
 '''
 
 [[plugins]]
+repo = "tpope/vim-commentary"
+
+[[plugins]]
 repo = "Shougo/ddc.vim"
 hook_source = '''
 inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
