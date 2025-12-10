@@ -47,6 +47,7 @@ function! s:on_lsp_buffer_enabled() abort
 	nnoremap <buffer> <leader>rn <plug>(lsp-rename)
 	nnoremap <buffer> <leader>[g <plug>(lsp-prev-diagnostic)
 	nnoremap <buffer> <leader>]g <plug>(lsp-next-diagnostic)
+	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
 	nnoremap <buffer> <leader>ca <plug>(lsp-code-action)
 	nnoremap <buffer> <leader>k <plug>(lsp-hover)
 	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
