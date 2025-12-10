@@ -63,6 +63,12 @@ augroup END
 repo = "tpope/vim-commentary"
 
 [[plugins]]
+repo = "vim-airline/vim-airline"
+hook_add = '''
+let g:airline_theme = 'iceberg'
+'''
+
+[[plugins]]
 repo = "Shougo/ddc.vim"
 hook_source = '''
 inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
@@ -136,7 +142,21 @@ call ddu#custom#patch_global({
 call ddu#custom#patch_local('buffer', {
 	\ 'ui': 'ff',
 	\ 'sources': [{'name': 'buffer'}],
-	\ })
+    \ 'sourceOptions': {
+    \   '_': {
+    \       'matchers': ['matcher_substring'],
+    \   },
+    \ },
+    \ 'uiParams': {
+    \   'ff': {
+    \       'split': 'no',
+    \   }
+    \ },
+    \ 'filterParams': {
+    \   'matcher_substring': {
+    \       'highlightMatched': 'Title'
+    \   }
+	\ }})
 autocmd FileType ddu-ff call s:ddu_ff_settings()
 function! s:ddu_ff_settings() abort
 	nnoremap <buffer><silent> q
@@ -145,6 +165,8 @@ function! s:ddu_ff_settings() abort
 		\ <cmd>call ddu#ui#do_action('itemAction')<cr>
 	nnoremap <buffer><silent> a
 		\ <cmd>call ddu#ui#do_action('chooseAction')<cr>
+    nnoremap <buffer><silent> f
+        \ <cmd>call ddu#ui#do_action('openFilterWindow')<cr>
 endfunction
 nnoremap <silent> <leader>bb <cmd>call ddu#start({'name': 'buffer'})<cr>
 '''
@@ -160,6 +182,9 @@ repo = "Shougo/ddu-source-action"
 
 [[plugins]]
 repo = "Shougo/ddu-kind-file"
+
+[[plugins]]
+repo = "Shougo/ddu-filter-matcher_substring"
 
 [[plugins]]
 repo = "vim-fall/fall.vim"

@@ -54,6 +54,7 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+set background=dark
 
 nnoremap <leader>bd <cmd>bd<cr>
 nnoremap <leader>bn <cmd>bn<cr>
