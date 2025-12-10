@@ -63,12 +63,6 @@ augroup END
 repo = "tpope/vim-commentary"
 
 [[plugins]]
-repo = "vim-airline/vim-airline"
-hook_add = '''
-let g:airline_theme = 'iceberg'
-'''
-
-[[plugins]]
 repo = "Shougo/ddc.vim"
 hook_source = '''
 inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
@@ -138,25 +132,21 @@ call ddu#custom#patch_global({
     \   'action': {
     \       'defaultAction': 'do',
     \   },
-	\ }})
-call ddu#custom#patch_local('buffer', {
-	\ 'ui': 'ff',
-	\ 'sources': [{'name': 'buffer'}],
-    \ 'sourceOptions': {
-    \   '_': {
-    \       'matchers': ['matcher_substring'],
-    \   },
-    \ },
-    \ 'uiParams': {
-    \   'ff': {
-    \       'split': 'no',
-    \   }
     \ },
     \ 'filterParams': {
     \   'matcher_substring': {
     \       'highlightMatched': 'Title'
-    \   }
+    \   },
+    \ },
+    \ 'uiParams': {
+    \   '_': {
+    \       'split': 'no',
+    \   },
 	\ }})
+call ddu#custom#patch_local('buffer', {
+	\ 'ui': 'ff',
+	\ 'sources': [{'name': 'buffer'}]
+    \ })
 autocmd FileType ddu-ff call s:ddu_ff_settings()
 function! s:ddu_ff_settings() abort
 	nnoremap <buffer><silent> q
@@ -167,8 +157,52 @@ function! s:ddu_ff_settings() abort
 		\ <cmd>call ddu#ui#do_action('chooseAction')<cr>
     nnoremap <buffer><silent> f
         \ <cmd>call ddu#ui#do_action('openFilterWindow')<cr>
+
+    setlocal cursorline
 endfunction
 nnoremap <silent> <leader>bb <cmd>call ddu#start({'name': 'buffer'})<cr>
+call ddu#custom#patch_local('filer', {
+    \ 'ui': 'filer',
+    \ 'sources': [{'name': 'file'}],
+    \ 'sourceOptions': {
+    \   'file': {
+    \       'columns': ['icon_filename'],
+    \       'matchers': ['matcher_substring', 'matcher_hidden'],
+    \   },
+    \ },
+    \ 'columnParams': {
+    \   'icon_filename': {
+    \       'defaultIcon': {
+    \           'icon': '',
+    \       },
+    \   },
+    \ },
+    \ 'uiParams': {
+    \   'filer': {
+    \       'sort': 'filename',
+    \       'sortTreesFirst': v:true,
+    \   },
+    \ }})
+autocmd FileType ddu-filer call s:ddu_filer_settings()
+function! s:ddu_filer_settings() abort
+    nnoremap <buffer><silent> q
+        \ <cmd>call ddu#ui#do_action('quit')<cr>
+    nnoremap <buffer><silent><expr> <cr>
+        \ ddu#ui#get_item()->get('isTree', v:false) ?
+        \ "<cmd>call ddu#ui#do_action('itemAction', {'name': 'narrow'})<cr>" :
+        \ "<cmd>call ddu#ui#do_action('itemAction', {'name': 'open'})<cr>"
+    nnoremap <buffer><silent> o
+        \ <cmd>call ddu#ui#do_action('expandItem')<cr>
+    nnoremap <buffer><silent> ..
+        \ <cmd>call ddu#ui#do_action('itemAction', {'name': 'narrow', 'params': {'path': '..'}})<cr>
+	nnoremap <buffer><silent> a
+		\ <cmd>call ddu#ui#do_action('chooseAction')<cr>
+    nnoremap <buffer><silent> f
+        \ <cmd>call ddu#ui#do_action('openFilterWindow')<cr>
+
+    setlocal cursorline
+endfunction
+nnoremap <silent> <leader>e <cmd>call ddu#start({'name': 'filer'})<cr>
 '''
 
 [[plugins]]
@@ -187,6 +221,21 @@ repo = "Shougo/ddu-kind-file"
 repo = "Shougo/ddu-filter-matcher_substring"
 
 [[plugins]]
+repo = "Shougo/ddu-ui-filer"
+
+[[plugins]]
+repo = "Shougo/ddu-source-file"
+
+[[plugins]]
+repo = "Shougo/ddu-kind-file"
+
+[[plugins]]
+repo = "ryota2357/ddu-column-icon_filename"
+
+[[plugins]]
+repo = "Shougo/ddu-filter-matcher_hidden"
+
+[[plugins]]
 repo = "vim-fall/fall.vim"
 hook_add = '''
 nnoremap <leader>ff <cmd>Fall file<cr>
@@ -202,43 +251,6 @@ augroup dpp_gitgutter
 augroup END
 '''
 
-
-[[plugins]]
-repo = "voldikss/vim-floaterm"
-hook_source = '''
-nnoremap <silent> <C-t>c :FloatermNew<CR>
-nnoremap <silent> <C-t>t :FloatermToggle<CR>
-nnoremap <silent> <C-t>n :FloatermNext<CR>
-nnoremap <silent> <C-t>p :FloatermPrev<CR>
-nnoremap <silent> <C-t>x :FloatermKill<CR>
-
-tnoremap <silent> <C-t>c <C-\><C-n>:FloatermNew<CR>
-tnoremap <silent> <C-t>t <C-\><C-n>:FloatermToggle<CR>
-tnoremap <silent> <C-t>n <C-\><C-n>:FloatermNext<CR>
-tnoremap <silent> <C-t>p <C-\><C-n>:FloatermPrev<CR>
-tnoremap <silent> <C-t>x <C-\><C-n>:FloatermKill<CR>
-'''
-
 [[plugins]]
 repo = "lambdalisue/vim-gin"
 
-[[plugins]]
-repo = "lambdalisue/vim-fern"
-hook_source = '''
-let g:fern#renderer = "nerdfont"
-nnoremap <leader>e <cmd>Fern .<cr>
-'''
-
-[[plugins]]
-repo = "lambdalisue/vim-nerdfont"
-
-[[plugins]]
-repo = "lambdalisue/vim-fern-renderer-nerdfont"
-
-[[plugins]]
-repo = "Shougo/ddt.vim"
-hook_add = '''
-'''
-
-[[plugins]]
-repo = "Shougo/ddt-ui-terminal"

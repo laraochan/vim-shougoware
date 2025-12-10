@@ -43,6 +43,8 @@ endif
 set termguicolors
 set clipboard+=unnamed
 set signcolumn=yes
+set laststatus=2
+set mouse=a
 set nobackup
 set nowritebackup
 set noswapfile
